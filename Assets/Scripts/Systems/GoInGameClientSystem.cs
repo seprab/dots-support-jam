@@ -7,9 +7,16 @@ using UnityEngine;
 [WorldSystemFilter(WorldSystemFilterFlags.ClientSimulation)]
 partial struct GoInGameClientSystem : ISystem
 {
+    public void OnCreate(ref SystemState state)
+    {
+        state.RequireForUpdate<EntitiesReferences>();
+        state.RequireForUpdate<NetworkId>();
+    }
+
     //[BurstCompile]
     public void OnUpdate(ref SystemState state)
     {
+        
         EntityCommandBuffer ecb = new EntityCommandBuffer(Allocator.Temp);
         foreach ((RefRO<NetworkId> networkId, Entity entity) in
                  SystemAPI.Query<RefRO<NetworkId>>().WithNone<NetworkStreamInGame>().WithEntityAccess()

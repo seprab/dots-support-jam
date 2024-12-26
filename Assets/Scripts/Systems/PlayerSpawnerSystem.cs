@@ -5,14 +5,12 @@ using Unity.Transforms;
 
 partial struct PlayerSpawnerSystem : ISystem
 {
-    
+    /*
     EntityQuery playerQuery;
-    
     [BurstCompile]
     public void OnCreate(ref SystemState state)
     {
         state.RequireForUpdate<PlayerSpawner>();
-
         playerQuery = SystemAPI.QueryBuilder().WithAny<Player>().Build();
     }
 
@@ -23,7 +21,6 @@ partial struct PlayerSpawnerSystem : ISystem
         {
             var prefab = SystemAPI.GetSingleton<PlayerSpawner>().playerPrefab;
             var player = state.EntityManager.Instantiate(prefab);
-            
             state.EntityManager.SetComponentData(player, LocalTransform.FromPosition(4,0,0));
         }
     }
@@ -33,4 +30,6 @@ partial struct PlayerSpawnerSystem : ISystem
     {
         
     }
+    
+    */
 }
