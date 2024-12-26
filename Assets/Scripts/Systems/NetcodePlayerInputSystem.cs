@@ -39,6 +39,8 @@ partial struct NetcodePlayerInputSystem : ISystem
             }
             netcodePlayerInput.ValueRW.inputVector  = input;
         }
+
+       
     }
 
     [BurstCompile]
