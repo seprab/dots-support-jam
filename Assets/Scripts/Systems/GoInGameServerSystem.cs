@@ -25,8 +25,6 @@ partial struct GoInGameServerSystem : ISystem
                      RefRO<ReceiveRpcCommandRequest> receiveRpcCommandRequest, Entity rpcEntity)
                  in
                  SystemAPI.Query<RefRO<ReceiveRpcCommandRequest>>().WithAll<GoInGameRequestRpc>().WithEntityAccess())
-
-
         {
 
             Debug.Log("Client connected to server!! ");
