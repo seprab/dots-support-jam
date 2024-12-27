@@ -1,12 +1,12 @@
  using Unity.Entities;
 using UnityEngine;
 
-class PlayerBaker : MonoBehaviour
+class PlayerAuthoring : MonoBehaviour
 {
 }
-class PlayerBakerBaker : Baker<PlayerBaker>
+class Baker : Baker<PlayerAuthoring>
 {
-    public override void Bake(PlayerBaker authoring)
+    public override void Bake(PlayerAuthoring authoring)
     {
         var player = GetEntity(TransformUsageFlags.Dynamic);
         AddComponent(player, new Player{} ); 
