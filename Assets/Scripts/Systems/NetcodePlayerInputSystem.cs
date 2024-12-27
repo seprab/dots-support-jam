@@ -38,9 +38,17 @@ partial struct NetcodePlayerInputSystem : ISystem
                 input.x = 1;
             }
             netcodePlayerInput.ValueRW.inputVector  = input;
-        }
 
-       
+            if (Input.GetKeyUp(KeyCode.U))
+            {
+                Debug.Log("shoot ");
+                netcodePlayerInput.ValueRW.shoot.Set();
+            }
+            else
+            {
+               netcodePlayerInput.ValueRW.shoot  = default;
+            }
+        }
     }
 
     [BurstCompile]

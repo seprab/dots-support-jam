@@ -18,8 +18,7 @@ partial struct TestReadMyValue : ISystem
                 )
 
         {
-            
-            Debug.Log(myValue.ValueRO.value + " : " + entity.ToString() + state.World);
+            //Debug.Log(myValue.ValueRO.value + " : " + entity.ToString() + state.World);
         }
     }
 
