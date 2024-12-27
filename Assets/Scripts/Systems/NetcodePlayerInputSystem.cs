@@ -43,11 +43,11 @@ partial struct NetcodePlayerInputSystem : ISystem
             if (Input.GetKeyUp(KeyCode.U))
             {
                 Debug.Log("shoot ");
-                netcodePlayerInput.ValueRW.shoot.Set();
+                netcodePlayerInput.ValueRW.shoot.Set(); //Instead of a bool, this is going to be network safe. This is like a true
             }
             else
             {
-               netcodePlayerInput.ValueRW.shoot  = default;
+               netcodePlayerInput.ValueRW.shoot  = default; //this is going to be set to false
             }
         }
     }
