@@ -4,6 +4,7 @@ using Unity.Mathematics;
 using Unity.NetCode;
 using UnityEngine;
 
+//This is going to run in the client
 [UpdateInGroup(typeof(GhostInputSystemGroup))]
 partial struct NetcodePlayerInputSystem : ISystem
 {
