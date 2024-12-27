@@ -5,6 +5,7 @@ using UnityEngine;
 
 namespace Systems
 {
+    // This runs in the client and the server
     [UpdateInGroup(typeof(PredictedSimulationSystemGroup))]
     public partial struct ShootSystem : ISystem
     {
