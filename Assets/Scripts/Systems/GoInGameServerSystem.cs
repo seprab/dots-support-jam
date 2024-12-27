@@ -30,7 +30,6 @@ partial struct GoInGameServerSystem : ISystem
             // entity on server who sent the rpc 
             var entityConnection = receiveRpcCommandRequest.ValueRO.SourceConnection;
             ecb.AddComponent<NetworkStreamInGame>(entityConnection);
-            Debug.Log($"Client entity {entityConnection.Index} connected to server!");
 
             // Consume the rpc
             ecb.DestroyEntity(rpcEntity);
@@ -42,6 +41,7 @@ partial struct GoInGameServerSystem : ISystem
             ecb.SetComponent(playerEntity, LocalTransform.FromPosition(pos));
             // configure the owner
             var networkId = SystemAPI.GetComponent<NetworkId>(entityConnection);
+            Debug.Log($"Client entity {entityConnection.Index} connected to server with Network Id {networkId}!");
             ecb.AddComponent(playerEntity, new GhostOwner
             {
                 NetworkId = networkId.Value
