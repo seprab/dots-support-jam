@@ -27,10 +27,10 @@ partial struct GoInGameServerSystem : ISystem
                  SystemAPI.Query<RefRO<ReceiveRpcCommandRequest>>().WithAll<GoInGameRequestRpc>().WithEntityAccess())
         {
 
-            Debug.Log("Client connected to server!! ");
             // entity on server who sent the rpc 
             var entityConnection = receiveRpcCommandRequest.ValueRO.SourceConnection;
             ecb.AddComponent<NetworkStreamInGame>(entityConnection);
+            Debug.Log($"Client entity {entityConnection.Index} connected to server!");
 
             // Consume the rpc
             ecb.DestroyEntity(rpcEntity);
