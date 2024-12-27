@@ -303,6 +303,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   playerPrefabGameObject: {fileID: 2116800770254637906, guid: d7af6a2a4cfa86b45a6cd34325d4e0b5, type: 3}
+  bulletPrefabGameObject: {fileID: 5231785052620874440, guid: 1fab91907606844e7877fd16d2b73f80, type: 3}
 --- !u!4 &1996057438
 Transform:
   m_ObjectHideFlags: 0
