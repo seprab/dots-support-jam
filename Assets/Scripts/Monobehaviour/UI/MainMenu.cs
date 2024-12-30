@@ -11,6 +11,8 @@ public class MainMenu : MonoBehaviour
     [SerializeField] private  UnityEngine.UI.Button _quitButton;
     [SerializeField] private SceneAsset _entitiesSubscene;
     
+    [SerializeField] private SceneAsset sceneName;
+    
     private void Start()
     {
         _startServerButton.onClick.AddListener(StartServer);
@@ -36,8 +38,22 @@ public class MainMenu : MonoBehaviour
         {
             World.DefaultGameObjectInjectionWorld = serverWorld;
         }
-        SceneManager.LoadSceneAsync(_entitiesSubscene.name, LoadSceneMode.Additive);
+        //SceneManager.LoadSceneAsync(_entitiesSubscene.name, LoadSceneMode.Additive);
+        
+        SceneManager.LoadScene("FrontendHUD");
 
+        //Destroy the local simulation world to avoid the game scene to be loaded into it
+        //This prevent rendering (rendering from multiple world with presentation is not greatly supported)
+        //and other issues.
+        DestroyLocalSimulationWorld();
+        
+        //TODO  revisar esto que es copiado del ejemplo de netcode 
+        if (World.DefaultGameObjectInjectionWorld == null)
+            World.DefaultGameObjectInjectionWorld = serverWorld;
+        
+        SceneManager.LoadSceneAsync(sceneName.name, LoadSceneMode.Additive);
+        
+        
         ushort port = 7979;
         RefRW<NetworkStreamDriver> networkStreamDriver = serverWorld.EntityManager
             .CreateEntityQuery(typeof(NetworkStreamDriver)).GetSingletonRW<NetworkStreamDriver>();
@@ -80,5 +96,18 @@ public class MainMenu : MonoBehaviour
     private void Quit()
     {
         Debug.Log("Quit");
+    }
+    
+    protected void DestroyLocalSimulationWorld()
+    {
+        foreach (var world in World.All)
+        {
+            if (world.Flags == WorldFlags.Game)
+            {
+                //OldFrontendWorldName = world.Name;
+                world.Dispose();
+                break;
+            }
+        }
     }
 }
