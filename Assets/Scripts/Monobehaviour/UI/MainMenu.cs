@@ -9,8 +9,7 @@ public class MainMenu : MonoBehaviour
     [SerializeField] private  UnityEngine.UI.Button _startServerButton;
     [SerializeField] private  UnityEngine.UI.Button _joinServerButton;
     [SerializeField] private  UnityEngine.UI.Button _quitButton;
-    [SerializeField] private SceneAsset _entitiesSubscene;
-    
+    //[SerializeField] private SceneAsset _entitiesSubscene;
     [SerializeField] private SceneAsset sceneName;
     
     private void Start()
@@ -51,6 +50,7 @@ public class MainMenu : MonoBehaviour
         if (World.DefaultGameObjectInjectionWorld == null)
             World.DefaultGameObjectInjectionWorld = serverWorld;
         
+        // TODO check if we need to load the subscene or the scene 
         SceneManager.LoadSceneAsync(sceneName.name, LoadSceneMode.Additive);
         
         
@@ -83,7 +83,7 @@ public class MainMenu : MonoBehaviour
         {
             World.DefaultGameObjectInjectionWorld = clientWorld;
         }
-        SceneManager.LoadSceneAsync(_entitiesSubscene.name, LoadSceneMode.Additive);
+        SceneManager.LoadSceneAsync(sceneName.name, LoadSceneMode.Additive);
 
         ushort port = 7979;
         string ip = "127.0.0.1";
