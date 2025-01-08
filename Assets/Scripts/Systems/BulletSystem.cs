@@ -13,7 +13,7 @@ namespace Systems
         [BurstCompile]
         public void OnCreate(ref SystemState state)
         {
-            
+            //state.Enabled = false;
         }
 
         [BurstCompile]
@@ -30,9 +30,10 @@ namespace Systems
                          RefRW<Bullet>
                      >().WithEntityAccess().WithAll<Simulate>())
             {
-                float moveSpeed = 10;
-                float3 moveVector = new float3(0, 0, 1);
-                localTransform.ValueRW.Position += moveVector * moveSpeed * SystemAPI.Time.DeltaTime;
+                // moving with Physics now !
+                //float moveSpeed = 10;
+                //float3 moveVector = new float3(0, 0, 1);
+                //localTransform.ValueRW.Position += moveVector * moveSpeed * SystemAPI.Time.DeltaTime;
 
                 if (state.World.IsServer())
                 {
