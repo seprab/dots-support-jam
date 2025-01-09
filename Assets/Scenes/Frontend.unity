@@ -443,14 +443,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1775ee2556d14f47bd086364854786b1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Address: {fileID: 1138371482}
-  Port: {fileID: 1227208672}
-  Sample: {fileID: 874856261}
-  SamplePicker: {fileID: 1633121168}
-  ClientServerButton: {fileID: 605428337}
-  JoinExistingGame: {fileID: 83735947}
-  HostConnectionLabel: {fileID: 1057790597}
-  ClientConnectionLabel: {fileID: 1650030255}
 --- !u!4 &408141151
 Transform:
   m_ObjectHideFlags: 0
@@ -2158,8 +2150,9 @@ MonoBehaviour:
   _startServerButton: {fileID: 605428337}
   _joinServerButton: {fileID: 83735947}
   _quitButton: {fileID: 0}
-  _entitiesSubscene: {fileID: 0}
   sceneName: {fileID: 102900000, guid: 99c9720ab356a0642a771bea13969a05, type: 3}
+  address: {fileID: 1646482871}
+  port: {fileID: 884894086}
 --- !u!1 &1227208671
 GameObject:
   m_ObjectHideFlags: 0
