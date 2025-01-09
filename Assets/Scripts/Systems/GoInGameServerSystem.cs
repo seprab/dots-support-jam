@@ -57,7 +57,7 @@ partial struct GoInGameServerSystem : ISystem
                 ecb.SetComponent(cameraEntity, new GhostOwner { NetworkId = clientConnectionId });
 
                 // Setup links between the prefabs
-                //ThirdPersonPlayer player = SystemAPI.GetComponent<ThirdPersonPlayer>(gameSetup.PlayerPrefab);
+                ThirdPersonPlayer player = SystemAPI.GetComponent<ThirdPersonPlayer>(gameSetup.PlayerPrefab);
                 //player.ControlledCharacter = characterEntity;
                 //player.ControlledCamera = cameraEntity;
                 //ecb.SetComponent(playerEntity, player);
