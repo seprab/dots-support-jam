@@ -1,9 +1,12 @@
+using System;
 using Unity.Entities;
 using Unity.NetCode;
 using Unity.Networking.Transport;
 using UnityEditor;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using UnityEngine.UI;
+
 public class MainMenu : MonoBehaviour
 {
     [SerializeField] private  UnityEngine.UI.Button _startServerButton;
@@ -11,7 +14,8 @@ public class MainMenu : MonoBehaviour
     [SerializeField] private  UnityEngine.UI.Button _quitButton;
     //[SerializeField] private SceneAsset _entitiesSubscene;
     [SerializeField] private SceneAsset sceneName;
-    
+    public Text address;
+    public Text port;    
     private void Start()
     {
         _startServerButton.onClick.AddListener(StartServer);
@@ -85,10 +89,7 @@ public class MainMenu : MonoBehaviour
         }
         SceneManager.LoadSceneAsync(sceneName.name, LoadSceneMode.Additive);
 
-        ushort port = 7979;
-        string ip = "127.0.0.1";
-        
-        NetworkEndpoint connectNetworkEndpoint = NetworkEndpoint.Parse(ip, port);
+        NetworkEndpoint connectNetworkEndpoint = NetworkEndpoint.Parse(address.text , ParsePortOrDefault(port.text) );
         RefRW<NetworkStreamDriver> networkStreamDriver = clientWorld.EntityManager
             .CreateEntityQuery(typeof(NetworkStreamDriver)).GetSingletonRW<NetworkStreamDriver>();
         networkStreamDriver.ValueRW.Connect(clientWorld.EntityManager, connectNetworkEndpoint);
@@ -96,6 +97,18 @@ public class MainMenu : MonoBehaviour
     private void Quit()
     {
         Debug.Log("Quit");
+    }
+    
+    // Tries to parse a port, returns true if successful, otherwise false
+    // The port will be set to whatever is parsed, otherwise the default port of k_NetworkPort
+    private UInt16 ParsePortOrDefault(string s)
+    {
+        if (!UInt16.TryParse(s, out var port))
+        {
+            Debug.LogWarning($"Unable to parse port, using default port {7979}");
+            return 7979;
+        }
+        return port;
     }
     
     protected void DestroyLocalSimulationWorld()
