@@ -15,7 +15,7 @@ public class MainMenu : MonoBehaviour
     [SerializeField] private UnityEngine.UI.Button _quitButton;
 
     //[SerializeField] private SceneAsset _entitiesSubscene;
-    [SerializeField] private SceneAsset sceneName;
+    [SerializeField] private string sceneName = "SampleScene";
     public Text address;
     public Text port;
 
@@ -59,7 +59,7 @@ public class MainMenu : MonoBehaviour
             World.DefaultGameObjectInjectionWorld = serverWorld;
 
         // TODO check if we need to load the subscene or the scene 
-        SceneManager.LoadSceneAsync(sceneName.name, LoadSceneMode.Additive);
+        SceneManager.LoadSceneAsync(sceneName, LoadSceneMode.Additive);
 
 
         ushort port = 7979;
@@ -92,7 +92,7 @@ public class MainMenu : MonoBehaviour
             World.DefaultGameObjectInjectionWorld = clientWorld;
         }
         SceneManager.LoadScene("FrontendHUD");
-        SceneManager.LoadSceneAsync(sceneName.name, LoadSceneMode.Additive);
+        SceneManager.LoadSceneAsync(sceneName, LoadSceneMode.Additive);
 
         NetworkEndpoint connectNetworkEndpoint = NetworkEndpoint.Parse(address.text, ParsePortOrDefault(port.text));
         RefRW<NetworkStreamDriver> networkStreamDriver = clientWorld.EntityManager
