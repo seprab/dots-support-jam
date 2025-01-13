@@ -37,7 +37,7 @@ public partial struct ZombieSpawnerSystem : ISystem
         if (waveCreationTime <= 0)
         {
             waveCreationTime = SystemAPI.GetSingleton<EntitiesReferences>().waveTimer;
-            Debug.Log (waveCreationTime);
+            //Debug.Log (waveCreationTime.ToString());
         }
 
         //var soldierQuery = SystemAPI.QueryBuilder().WithAll<Zombie>().Build();

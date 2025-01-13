@@ -35,7 +35,7 @@ namespace Systems
                 //float3 moveVector = new float3(0, 0, 1);
                 //localTransform.ValueRW.Position += moveVector * moveSpeed * SystemAPI.Time.DeltaTime;
 
-                if (state.World.IsServer())
+                if (state.WorldUnmanaged.IsServer())
                 {
                     bullet.ValueRW.timer -= SystemAPI.Time.DeltaTime;
                     if (bullet.ValueRW.timer < 0)
