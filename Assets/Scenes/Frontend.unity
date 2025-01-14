@@ -2150,7 +2150,7 @@ MonoBehaviour:
   _startServerButton: {fileID: 605428337}
   _joinServerButton: {fileID: 83735947}
   _quitButton: {fileID: 0}
-  sceneName: SampleScene
+  sceneName: Battlefield
   address: {fileID: 1646482871}
   port: {fileID: 884894086}
 --- !u!1 &1227208671
