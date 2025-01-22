@@ -158,12 +158,76 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 563455362}
-  m_Enabled: 0
+  m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 91357c71a3d438243a4b6a59809d1f84, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   PlayerPrefab: {fileID: 2116800770254637906, guid: d7af6a2a4cfa86b45a6cd34325d4e0b5, type: 3}
+--- !u!1 &1199278843
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1199278845}
+  - component: {fileID: 1199278844}
+  m_Layer: 0
+  m_Name: NavigationSetup
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &1199278844
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1199278843}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7277944f4f59c4516a574675e8168f32, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  MaxIteration: 512
+  MaxPathSize: 512
+  MaxPathNodePoolSize: 512
+  Extents:
+    x: 2
+    y: 2
+    z: 2
+  DynamicPathFinding: 1
+  DynamicPathRecalculatingFrequency: 0.001
+  UnitsInForwardDirection: 4
+  SetGlobalRelativeLocation: 1
+  Units:
+    x: 0
+    y: 0
+    z: 36
+  AgentMovementEnabled: 1
+  MinimumDistanceToWaypoint: 0.5
+  agentSpeed: 20
+  RotationSpeed: 10
+  RetracePath: 1
+--- !u!4 &1199278845
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1199278843}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1996057436
 GameObject:
   m_ObjectHideFlags: 0
@@ -219,3 +283,4 @@ SceneRoots:
   m_Roots:
   - {fileID: 563455363}
   - {fileID: 1996057438}
+  - {fileID: 1199278845}
