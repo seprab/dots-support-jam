@@ -1,3 +1,4 @@
+
 using Unity.Burst;
 using Unity.Collections;
 using Unity.Entities;
@@ -6,34 +7,36 @@ using Unity.Mathematics;
 using Unity.Transforms;
 using UnityEngine;
 using Unity.CharacterController;
+using Unity.NetCode;
 
-[UpdateInGroup(typeof(InitializationSystemGroup))]
+[UpdateInGroup(typeof(GhostInputSystemGroup))]
+[WorldSystemFilter(WorldSystemFilterFlags.ClientSimulation)]
 public partial class ThirdPersonPlayerInputsSystem : SystemBase
 {
     protected override void OnCreate()
     {
-        RequireForUpdate<FixedTickSystem.Singleton>();
+        RequireForUpdate<NetworkTime>();
         RequireForUpdate(SystemAPI.QueryBuilder().WithAll<ThirdPersonPlayer, ThirdPersonPlayerInputs>().Build());
     }
 
     protected override void OnUpdate()
     {
-        uint tick = SystemAPI.GetSingleton<FixedTickSystem.Singleton>().Tick;
-        
-        foreach (var (playerInputs, player) in SystemAPI.Query<RefRW<ThirdPersonPlayerInputs>, ThirdPersonPlayer>())
+        foreach (var (playerInputs, player) in SystemAPI.Query<RefRW<ThirdPersonPlayerInputs>, ThirdPersonPlayer>().WithAll<GhostOwnerIsLocal>())
         {
             playerInputs.ValueRW.MoveInput = new float2
             {
                 x = (Input.GetKey(KeyCode.D) ? 1f : 0f) + (Input.GetKey(KeyCode.A) ? -1f : 0f),
                 y = (Input.GetKey(KeyCode.W) ? 1f : 0f) + (Input.GetKey(KeyCode.S) ? -1f : 0f),
             };
+            
+            InputDeltaUtilities.AddInputDelta(ref playerInputs.ValueRW.CameraLookInput.x, Input.GetAxis("Mouse X"));
+            InputDeltaUtilities.AddInputDelta(ref playerInputs.ValueRW.CameraLookInput.y, Input.GetAxis("Mouse Y"));
+            InputDeltaUtilities.AddInputDelta(ref playerInputs.ValueRW.CameraZoomInput, -Input.mouseScrollDelta.y);
 
-            playerInputs.ValueRW.CameraLookInput = new float2(Input.GetAxis("Mouse X"), Input.GetAxis("Mouse Y"));
-            playerInputs.ValueRW.CameraZoomInput = -Input.mouseScrollDelta.y;
-
+            playerInputs.ValueRW.JumpPressed = default;
             if (Input.GetKeyDown(KeyCode.Space))
             {
-                playerInputs.ValueRW.JumpPressed.Set(tick);
+                playerInputs.ValueRW.JumpPressed.Set();
             }
         }
     }
@@ -42,8 +45,8 @@ public partial class ThirdPersonPlayerInputsSystem : SystemBase
 /// <summary>
 /// Apply inputs that need to be read at a variable rate
 /// </summary>
-[UpdateInGroup(typeof(SimulationSystemGroup))]
-[UpdateAfter(typeof(FixedStepSimulationSystemGroup))]
+[UpdateInGroup(typeof(PredictedSimulationSystemGroup))]
+[UpdateAfter(typeof(PredictedFixedStepSimulationSystemGroup))]
 [BurstCompile]
 public partial struct ThirdPersonPlayerVariableStepControlSystem : ISystem
 {
@@ -56,16 +59,24 @@ public partial struct ThirdPersonPlayerVariableStepControlSystem : ISystem
     [BurstCompile]
     public void OnUpdate(ref SystemState state)
     {
-        foreach (var (playerInputs, player) in SystemAPI.Query<ThirdPersonPlayerInputs, ThirdPersonPlayer>().WithAll<Simulate>())
-        {
+        foreach (var (playerInputs, playerNetworkInput, player) in SystemAPI.Query<ThirdPersonPlayerInputs, RefRW<ThirdPersonPlayerNetworkInput>, ThirdPersonPlayer>().WithAll<Simulate>())
+        {            
+            // Compute input deltas, compared to last known values
+            float2 lookInputDelta = InputDeltaUtilities.GetInputDelta(
+                playerInputs.CameraLookInput, 
+                playerNetworkInput.ValueRO.LastProcessedCameraLookInput);
+            float zoomInputDelta = InputDeltaUtilities.GetInputDelta(
+                playerInputs.CameraZoomInput, 
+                playerNetworkInput.ValueRO.LastProcessedCameraZoomInput);
+            playerNetworkInput.ValueRW.LastProcessedCameraLookInput = playerInputs.CameraLookInput;
+            playerNetworkInput.ValueRW.LastProcessedCameraZoomInput = playerInputs.CameraZoomInput;
+            
             if (SystemAPI.HasComponent<OrbitCameraControl>(player.ControlledCamera))
             {
                 OrbitCameraControl cameraControl = SystemAPI.GetComponent<OrbitCameraControl>(player.ControlledCamera);
-                
                 cameraControl.FollowedCharacterEntity = player.ControlledCharacter;
-                cameraControl.LookDegreesDelta = playerInputs.CameraLookInput;
-                cameraControl.ZoomDelta = playerInputs.CameraZoomInput;
-                
+                cameraControl.LookDegreesDelta = lookInputDelta;
+                cameraControl.ZoomDelta = zoomInputDelta;
                 SystemAPI.SetComponent(player.ControlledCamera, cameraControl);
             }
         }
@@ -76,22 +87,19 @@ public partial struct ThirdPersonPlayerVariableStepControlSystem : ISystem
 /// Apply inputs that need to be read at a fixed rate.
 /// It is necessary to handle this as part of the fixed step group, in case your framerate is lower than the fixed step rate.
 /// </summary>
-[UpdateInGroup(typeof(FixedStepSimulationSystemGroup), OrderFirst = true)]
+[UpdateInGroup(typeof(PredictedFixedStepSimulationSystemGroup), OrderFirst = true)]
 [BurstCompile]
 public partial struct ThirdPersonPlayerFixedStepControlSystem : ISystem
 {
     [BurstCompile]
     public void OnCreate(ref SystemState state)
     {
-        state.RequireForUpdate<FixedTickSystem.Singleton>();
         state.RequireForUpdate(SystemAPI.QueryBuilder().WithAll<ThirdPersonPlayer, ThirdPersonPlayerInputs>().Build());
     }
     
     [BurstCompile]
     public void OnUpdate(ref SystemState state)
     {
-        uint tick = SystemAPI.GetSingleton<FixedTickSystem.Singleton>().Tick;
-        
         foreach (var (playerInputs, player) in SystemAPI.Query<ThirdPersonPlayerInputs, ThirdPersonPlayer>().WithAll<Simulate>())
         {
             if (SystemAPI.HasComponent<ThirdPersonCharacterControl>(player.ControlledCharacter))
@@ -118,7 +126,7 @@ public partial struct ThirdPersonPlayerFixedStepControlSystem : ISystem
                 characterControl.MoveVector = MathUtilities.ClampToMaxLength(characterControl.MoveVector, 1f);
 
                 // Jump
-                characterControl.Jump = playerInputs.JumpPressed.IsSet(tick);
+                characterControl.Jump = playerInputs.JumpPressed.IsSet;
 
                 SystemAPI.SetComponent(player.ControlledCharacter, characterControl);
             }

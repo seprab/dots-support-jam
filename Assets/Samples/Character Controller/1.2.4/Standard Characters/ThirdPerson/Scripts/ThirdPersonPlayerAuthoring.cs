@@ -17,7 +17,12 @@ public class ThirdPersonPlayerAuthoring : MonoBehaviour
                 ControlledCharacter = GetEntity(authoring.ControlledCharacter, TransformUsageFlags.Dynamic),
                 ControlledCamera = GetEntity(authoring.ControlledCamera, TransformUsageFlags.Dynamic),
             });
+            
             AddComponent<ThirdPersonPlayerInputs>(entity);
+            // https://github.com/Unity-Technologies/CharacterControllerSamples/blob/master/_Documentation/Tutorial/tutorial-netcodecharacters-prediction-thirdperson.md
+            AddComponent<ThirdPersonPlayerNetworkInput>(entity);
+            
+            
         }
     }
 }

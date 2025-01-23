@@ -15,10 +15,20 @@ public struct ThirdPersonPlayer : IComponentData
 }
 
 [Serializable]
-public struct ThirdPersonPlayerInputs : IComponentData
+public struct ThirdPersonPlayerInputs : IInputComponentData
 {
     public float2 MoveInput;
     public float2 CameraLookInput;
     public float CameraZoomInput;
-    public FixedInputEvent JumpPressed;
+    public InputEvent JumpPressed; // This is now an InputEvent
+}
+
+[Serializable]
+[GhostComponent(SendTypeOptimization = GhostSendType.OnlyPredictedClients)]
+public struct ThirdPersonPlayerNetworkInput : IComponentData
+{
+    [GhostField()]
+    public float2 LastProcessedCameraLookInput;
+    [GhostField()]
+    public float LastProcessedCameraZoomInput;
 }
