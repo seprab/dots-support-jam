@@ -22,23 +22,23 @@ partial struct NetcodePlayerInputSystem : ISystem
             in SystemAPI.Query<RefRW<NetcodePlayerInput>>().WithAll<GhostOwnerIsLocal>() ) 
         {
             var input = new float2();
-            if (Input.GetKey(KeyCode.W))
-            {
-                input.y = +1;
-            }
-            if (Input.GetKey(KeyCode.S))
-            {
-                input.y = -1;
-            }
-            if (Input.GetKey(KeyCode.A))
-            {
-                input.x = -1;
-            }
-            if (Input.GetKey(KeyCode.D))
-            {
-                input.x = 1;
-            }
-            netcodePlayerInput.ValueRW.inputVector  = input;
+            // if (Input.GetKey(KeyCode.W))
+            // {
+            //     input.y = +1;
+            // }
+            // if (Input.GetKey(KeyCode.S))
+            // {
+            //     input.y = -1;
+            // }
+            // if (Input.GetKey(KeyCode.A))
+            // {
+            //     input.x = -1;
+            // }
+            // if (Input.GetKey(KeyCode.D))
+            // {
+            //     input.x = 1;
+            // }
+            // netcodePlayerInput.ValueRW.inputVector  = input;
 
             if (Input.GetKeyUp(KeyCode.U))
             {

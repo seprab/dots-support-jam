@@ -15,6 +15,7 @@ GameObject:
   - component: {fileID: 6121642417110453359}
   - component: {fileID: -4145486154400419328}
   - component: {fileID: 824592375278574407}
+  - component: {fileID: -3263104753904864679}
   m_Layer: 0
   m_Name: ThirdPersonCharacter
   m_TagString: Untagged
@@ -163,7 +164,7 @@ MonoBehaviour:
   SupportedGhostModes: 3
   OptimizationMode: 0
   Importance: 1
-  prefabId: 5fbcc801dea8fd640a004697d22ed448
+  prefabId: f743d179280b54dc7bb1dee42f278c50
   HasOwner: 1
   SupportAutoCommandTarget: 1
   TrackInterpolationDelay: 0
@@ -189,6 +190,18 @@ MonoBehaviour:
     PrefabType: -1
     SendTypeOptimization: -1
     VariantHash: 10188360468653526834
+--- !u!114 &-3263104753904864679
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1692896102597148395}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 271508315b1bc42fa8c420b8b4f183ac, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1692896103431116738
 GameObject:
   m_ObjectHideFlags: 0
