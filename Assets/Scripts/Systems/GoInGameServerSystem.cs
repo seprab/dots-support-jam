@@ -19,6 +19,8 @@ partial struct GoInGameServerSystem : ISystem
         state.RequireForUpdate<EntitiesReferences>();
         state.RequireForUpdate<NetworkId>();
         _random = Random.CreateFromIndex(0);
+
+        state.Enabled = false;
     }
 
     //[BurstCompile]

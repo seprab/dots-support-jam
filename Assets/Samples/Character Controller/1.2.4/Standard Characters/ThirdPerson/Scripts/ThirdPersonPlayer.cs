@@ -2,11 +2,15 @@ using System;
 using Unity.Collections;
 using Unity.Entities;
 using Unity.Mathematics;
+using Unity.NetCode;
 
 [Serializable]
+[GhostComponent]
 public struct ThirdPersonPlayer : IComponentData
 {
+    [GhostField]
     public Entity ControlledCharacter;
+    [GhostField]
     public Entity ControlledCamera;
 }
 
