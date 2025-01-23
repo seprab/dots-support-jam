@@ -13,6 +13,7 @@ GameObject:
   - component: {fileID: 8437701668696681728}
   - component: {fileID: 1359497720142731321}
   - component: {fileID: -111115952413936679}
+  - component: {fileID: 6988717296098735497}
   m_Layer: 0
   m_Name: OrbitCamera
   m_TagString: Untagged
@@ -89,7 +90,7 @@ MonoBehaviour:
   SupportedGhostModes: 3
   OptimizationMode: 0
   Importance: 1
-  prefabId: 492a184cc1501fe4da86d69b5eddc366
+  prefabId: 68037fc01232144a594aad5e643ae741
   HasOwner: 1
   SupportAutoCommandTarget: 1
   TrackInterpolationDelay: 0
@@ -115,3 +116,15 @@ MonoBehaviour:
     PrefabType: -1
     SendTypeOptimization: -1
     VariantHash: 10188360468653526834
+--- !u!114 &6988717296098735497
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7568817337597995144}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 91cffade3faa23640921cbb79b1e6bb0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 

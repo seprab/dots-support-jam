@@ -48,8 +48,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3fbdb3174a73a07408595a85d3e7fb6a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  ControlledCharacter: {fileID: 0}
-  ControlledCamera: {fileID: 0}
+  ControlledCharacter: {fileID: 1692896102597148395, guid: f743d179280b54dc7bb1dee42f278c50, type: 3}
+  ControlledCamera: {fileID: 7568817337597995144, guid: 68037fc01232144a594aad5e643ae741, type: 3}
 --- !u!114 &2523965782889321159
 MonoBehaviour:
   m_ObjectHideFlags: 0
