@@ -5,35 +5,38 @@ using Unity.Entities;
 using Unity.Jobs;
 using UnityEngine.Experimental.AI;
 using Unity.Mathematics;
+using UnityEngine;
+using Random = UnityEngine.Random;
 
 partial struct AgentNavSystem : ISystem, ISystemStartStop
 {
     NativeArray<JobHandle> pathFindingJobs;
     NativeArray<JobHandle> pathValidyJobs;
-    EntityQuery eq;
+    private EntityQuery eqNavAgents;
+    private EntityQuery eqNavProps;
     RefRW<NavGlobalProperties> properties;
     NativeArray<NavMeshQuery> pathFindingQueries;
     NativeArray<NavMeshQuery> pathRecaclulatingQueries;
-    private int count;
-    
     public void OnStartRunning(ref SystemState state)
     {
-        eq = state.EntityManager.CreateEntityQuery(typeof(NavAgent));
-        count = state.EntityManager.CreateEntityQuery(typeof(NavGlobalProperties)).CalculateEntityCount();
+        eqNavAgents = state.EntityManager.CreateEntityQuery(typeof(NavAgent));
+        eqNavProps = state.EntityManager.CreateEntityQuery(typeof(NavGlobalProperties));
+
     }
 
     public void OnStopRunning(ref SystemState state)
     {
     }
-
-    [BurstCompile]
+    
+    //[BurstCompile]
     public void OnUpdate(ref SystemState state)
     {
-        if (count != 1) return;
+        int globalProps = eqNavProps.CalculateEntityCount();
+        if (globalProps != 1) return;
         int i = 0;
-        pathFindingQueries = new NativeArray<NavMeshQuery>(eq.CalculateEntityCount(), Allocator.Temp);
+        pathFindingQueries = new NativeArray<NavMeshQuery>(eqNavAgents.CalculateEntityCount(), Allocator.Temp);
         properties = SystemAPI.GetSingletonRW<NavGlobalProperties>();
-        pathFindingJobs = new NativeArray<JobHandle>(eq.CalculateEntityCount(), Allocator.Temp);
+        pathFindingJobs = new NativeArray<JobHandle>(eqNavAgents.CalculateEntityCount(), Allocator.Temp);
         foreach (AgentNavAspect ana in SystemAPI.Query<AgentNavAspect>())
         {
             if (properties.ValueRO.DynamicPathFinding && ana.agentPathValidityBuffer.Length > 0 && ana.agentPathValidityBuffer.ElementAt(0).IsPathInvalid)
@@ -90,8 +93,8 @@ partial struct AgentNavSystem : ISystem, ISystemStartStop
         if (properties.ValueRO.DynamicPathFinding)
         {
             int j = 0;
-            pathRecaclulatingQueries = new NativeArray<NavMeshQuery>(eq.CalculateEntityCount(), Allocator.Temp);
-            pathValidyJobs = new NativeArray<JobHandle>(eq.CalculateEntityCount(), Allocator.Temp);
+            pathRecaclulatingQueries = new NativeArray<NavMeshQuery>(eqNavAgents.CalculateEntityCount(), Allocator.Temp);
+            pathValidyJobs = new NativeArray<JobHandle>(eqNavAgents.CalculateEntityCount(), Allocator.Temp);
             foreach (AgentNavAspect ana in SystemAPI.Query<AgentNavAspect>())
             {
                 if (!ana.agentMovement.ValueRO.Reached)
