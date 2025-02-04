@@ -81,7 +81,7 @@ partial struct SetEntityPositionJob: IJobEntity
         float randomRadius = random.NextFloat(0, circle);
         float x = initialPosition.x + randomRadius * math.cos(randomAngle);
         float z = initialPosition.z + randomRadius * math.sin(randomAngle);
-        float y = 0;
+        float y = 1.5f;
         if(is3DMov == 1) y = random.NextFloat(0, circle);
         transform.Position = new float3(x,y,z);
     }
