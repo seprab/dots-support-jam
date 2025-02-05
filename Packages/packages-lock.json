@@ -1,11 +1,10 @@
 {
   "dependencies": {
     "com.disillusion.play-mode-plus": {
-      "version": "git@github.com:TheDisillusion/Play-Mode-Plus.git",
+      "version": "file:Play-Mode-Plus-upm",
       "depth": 0,
-      "source": "git",
-      "dependencies": {},
-      "hash": "f94cb93c2ff66fea0e1c3cb5028c318327236a75"
+      "source": "embedded",
+      "dependencies": {}
     },
     "com.unity.ai.navigation": {
       "version": "2.0.5",

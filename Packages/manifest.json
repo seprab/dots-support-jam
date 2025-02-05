@@ -1,6 +1,5 @@
 {
   "dependencies": {
-    "com.disillusion.play-mode-plus": "git@github.com:TheDisillusion/Play-Mode-Plus.git",
     "com.unity.ai.navigation": "2.0.5",
     "com.unity.charactercontroller": "1.2.4",
     "com.unity.entities": "1.3.5",
