@@ -2,6 +2,7 @@
 using Unity.Collections;
 using Unity.Entities;
 using Unity.Mathematics;
+using Unity.NetCode;
 using UnityEngine;
 
 [Serializable]
@@ -22,10 +23,13 @@ public struct OrbitCamera : IComponentData
     public float ObstructionOuterSmoothingSharpness;
     public bool PreventFixedUpdateJitter;
     
+    [GhostField]
     public float TargetDistance;
     public float SmoothedTargetDistance;
     public float ObstructedDistance;
+    [GhostField]
     public float PitchAngle;
+    [GhostField]
     public float3 PlanarForward;
 }
 

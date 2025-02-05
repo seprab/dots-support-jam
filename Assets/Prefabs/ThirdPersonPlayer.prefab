@@ -13,6 +13,7 @@ GameObject:
   - component: {fileID: 2523965782889321159}
   - component: {fileID: 2800693065271019512}
   - component: {fileID: -6249831869022608494}
+  - component: {fileID: 7428094364253278053}
   m_Layer: 0
   m_Name: ThirdPersonPlayer
   m_TagString: Untagged
@@ -47,8 +48,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3fbdb3174a73a07408595a85d3e7fb6a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  ControlledCharacter: {fileID: 0}
-  ControlledCamera: {fileID: 0}
+  ControlledCharacter: {fileID: 1692896102597148395, guid: f743d179280b54dc7bb1dee42f278c50, type: 3}
+  ControlledCamera: {fileID: 7568817337597995144, guid: 68037fc01232144a594aad5e643ae741, type: 3}
 --- !u!114 &2523965782889321159
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -77,7 +78,7 @@ MonoBehaviour:
   SupportedGhostModes: 3
   OptimizationMode: 0
   Importance: 1
-  prefabId: 65701a63aea96444fa3a4b2ed4edbb25
+  prefabId: 48d89b173a3c4443ca593250c788968d
   HasOwner: 1
   SupportAutoCommandTarget: 1
   TrackInterpolationDelay: 0
@@ -103,3 +104,15 @@ MonoBehaviour:
     PrefabType: -1
     SendTypeOptimization: -1
     VariantHash: 10188360468653526834
+--- !u!114 &7428094364253278053
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4729649056687684238}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c9b37ec64cbd1ad4da1702b256d0fe13, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
