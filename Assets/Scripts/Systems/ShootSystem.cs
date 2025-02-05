@@ -43,10 +43,14 @@ namespace Systems
                     {
                         Debug.Log("shoot player" + state.World);
                         Entity bulletEntity = ecb.Instantiate(entitiesReferences.bulletPrefabEntity);
-                        ecb.SetComponent(bulletEntity, LocalTransform.FromPosition(localTransform.ValueRO.Position));
+                        var transform = LocalTransform.FromPosition(localTransform.ValueRO.Position );
+                        var forward = localTransform.ValueRO.TransformDirection(new float3(0, 0, 1));
+                        transform.Position = transform.Position + forward * 2f + new float3(0, 0.8f, 0);;
+                        
+                        ecb.SetComponent(bulletEntity, transform);
                         ecb.SetComponent(bulletEntity, new GhostOwner{NetworkId = ghostOwner.ValueRO.NetworkId});
-                        var speed = 60;
-                        var direction = localTransform.ValueRO.TransformDirection(new float3(0,0,1));
+                        var speed = 40;
+                        var direction = forward;
                         ecb.SetComponent(bulletEntity ,  new PhysicsVelocity{ Linear   = direction * speed  });
                     }
                 }
