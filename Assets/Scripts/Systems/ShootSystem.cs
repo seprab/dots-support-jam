@@ -41,7 +41,7 @@ namespace Systems
                 {
                     if (playerInput.ValueRO.shoot.IsSet)
                     {
-                        Debug.Log("shoot player" + state.World);
+                        //Debug.Log("shoot player" + state.World);
                         Entity bulletEntity = ecb.Instantiate(entitiesReferences.bulletPrefabEntity);
                         var transform = LocalTransform.FromPosition(localTransform.ValueRO.Position );
                         var forward = localTransform.ValueRO.TransformDirection(new float3(0, 0, 1));
