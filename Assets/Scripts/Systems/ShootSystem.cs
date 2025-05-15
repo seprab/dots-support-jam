@@ -30,22 +30,30 @@ namespace Systems
             EntityCommandBuffer ecb = new EntityCommandBuffer(Allocator.Temp);
             foreach ((RefRO<NetcodePlayerInput> playerInput,
                      RefRO<LocalTransform> localTransform,
-                     RefRO<GhostOwner> ghostOwner
+                     RefRO<GhostOwner> ghostOwner,
+                     RefRO<ShootPoint> shootPoint
                      )in SystemAPI.Query<
                          RefRO<NetcodePlayerInput>,
                          RefRO<LocalTransform>,
-                         RefRO<GhostOwner>
+                         RefRO<GhostOwner>,
+                         RefRO<ShootPoint>
                      >().WithAll<Simulate>())
             {
                 if (networkTime.IsFirstTimeFullyPredictingTick)
                 {
                     if (playerInput.ValueRO.shoot.IsSet)
                     {
+                        // TODO  maybe this can be done in another way just store the vector from player to that localpos
+                        // in the baker 
+                        var shootPosition = state.EntityManager.GetComponentData<LocalToWorld>(shootPoint.ValueRO.Value);
+                        
                         //Debug.Log("shoot player" + state.World);
                         Entity bulletEntity = ecb.Instantiate(entitiesReferences.bulletPrefabEntity);
                         var transform = LocalTransform.FromPosition(localTransform.ValueRO.Position );
                         var forward = localTransform.ValueRO.TransformDirection(new float3(0, 0, 1));
                         transform.Position = transform.Position + forward * 2f + new float3(0, 0.8f, 0);;
+
+                        transform.Position = shootPosition.Position;
                         
                         ecb.SetComponent(bulletEntity, transform);
                         ecb.SetComponent(bulletEntity, new GhostOwner{NetworkId = ghostOwner.ValueRO.NetworkId});

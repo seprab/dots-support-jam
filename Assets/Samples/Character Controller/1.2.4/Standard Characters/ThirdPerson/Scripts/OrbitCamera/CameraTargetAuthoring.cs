@@ -2,11 +2,13 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using Unity.Entities;
+using Unity.Mathematics;
 
 [DisallowMultipleComponent]
 public class CameraTargetAuthoring : MonoBehaviour
 {
     public GameObject Target;
+    public Transform shootPoint;
 
     public class Baker : Baker<CameraTargetAuthoring>
     {
@@ -16,6 +18,11 @@ public class CameraTargetAuthoring : MonoBehaviour
             AddComponent(entity, new CameraTarget
             {
                 TargetEntity = GetEntity(authoring.Target, TransformUsageFlags.Dynamic),
+            });
+            
+            AddComponent(entity, new ShootPoint
+            {
+                Value = GetEntity(authoring.shootPoint, TransformUsageFlags.Dynamic),
             });
         }
     }
