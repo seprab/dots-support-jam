@@ -61,7 +61,8 @@ MonoBehaviour:
   ObstructionInnerSmoothingSharpness: 3.4028235e+38
   ObstructionOuterSmoothingSharpness: 5
   PreventFixedUpdateJitter: 1
-  IgnoredEntities: []
+  IgnoredEntities:
+  - {fileID: 0}
 --- !u!114 &8437701668696681728
 MonoBehaviour:
   m_ObjectHideFlags: 0

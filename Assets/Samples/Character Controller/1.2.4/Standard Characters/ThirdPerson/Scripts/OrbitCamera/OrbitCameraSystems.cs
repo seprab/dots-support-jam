@@ -171,7 +171,13 @@ public partial struct OrbitCameraLateUpdateSystem : ISystem
                 // Obstruction handling
                 // Obstruction detection is handled here, because we have to adjust the obstruction distance
                 // to match the interpolated physics body transform (as opposed to the "simulation" transform). Otherwise, a
-                // camera getting obstructed by a moving physics body would have visible jitter. 
+                // camera getting obstructed by a moving physics body would have visible jitter.
+
+
+                CollisionFilter cameraCollisionFilter = default (CollisionFilter);
+                // 0 is bullet 
+                cameraCollisionFilter.CollidesWith &= ~(1u << 0);                    
+                
                 if (orbitCamera.ObstructionRadius > 0f)
                 {
                     float obstructionCheckDistance = orbitCamera.SmoothedTargetDistance;
@@ -183,7 +189,8 @@ public partial struct OrbitCameraLateUpdateSystem : ISystem
                         -cameraForward,
                         obstructionCheckDistance,
                         ref collector,
-                        CollisionFilter.Default,
+                        //CollisionFilter.Default,
+                        cameraCollisionFilter,
                         QueryInteraction.IgnoreTriggers);
 
                     float newObstructedDistance = obstructionCheckDistance;
@@ -208,6 +215,7 @@ public partial struct OrbitCameraLateUpdateSystem : ISystem
                                     obstructionCheckDistance,
                                     ref collector,
                                     CollisionFilter.Default,
+                                    //cameraCollisionFilter,
                                     QueryInteraction.IgnoreTriggers);
 
                                 if (collector.NumHits > 0)
