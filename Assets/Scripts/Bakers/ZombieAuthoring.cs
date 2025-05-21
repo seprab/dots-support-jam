@@ -17,7 +17,3 @@ class ZombieBaker : Baker<ZombieAuthoring>
         AddBuffer<NavAgentPathValidityBuffer>(zombie);
     }
 }
-
-public struct Zombie : IComponentData
-{
-}
