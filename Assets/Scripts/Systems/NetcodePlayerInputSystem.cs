@@ -40,9 +40,10 @@ partial struct NetcodePlayerInputSystem : ISystem
             // }
             // netcodePlayerInput.ValueRW.inputVector  = input;
 
-            if (Input.GetKeyUp(KeyCode.U))
+            if (Input.GetMouseButtonUp(0))
             {
                 netcodePlayerInput.ValueRW.shoot.Set(); //Instead of a bool, this is going to be network safe. This is like a true
+                
             }
             else
             {
