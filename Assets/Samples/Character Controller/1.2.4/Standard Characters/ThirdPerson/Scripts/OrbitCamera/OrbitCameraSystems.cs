@@ -174,10 +174,12 @@ public partial struct OrbitCameraLateUpdateSystem : ISystem
                 // camera getting obstructed by a moving physics body would have visible jitter.
 
 
-                CollisionFilter cameraCollisionFilter = default (CollisionFilter);
-                // 0 is bullet 
-                cameraCollisionFilter.CollidesWith &= ~(1u << 0);                    
-                
+                CollisionFilter cameraCollisionFilter = new CollisionFilter
+                {
+                    BelongsTo = 2u,
+                    CollidesWith = 1 << 1,
+                    GroupIndex = 0
+                };
                 if (orbitCamera.ObstructionRadius > 0f)
                 {
                     float obstructionCheckDistance = orbitCamera.SmoothedTargetDistance;
