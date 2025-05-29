@@ -42,17 +42,19 @@ partial struct ZombieStateMachineSystem : ISystem
             if (players.Length > 0)
             {
                 Entity closestPlayer = Entity.Null;
+                Entity closestPlayerCharacter = Entity.Null;
                 float closestDistance = float.MaxValue;
-
+                
                 foreach (var player in players)
                 {
-                    var playerTransform = SystemAPI.GetComponent<LocalTransform>(player);
+                    var characterController = SystemAPI.GetComponent<ThirdPersonPlayer>(player).ControlledCharacter;
+                    var playerTransform = SystemAPI.GetComponent<LocalTransform>(characterController);
                     float distanceToPlayer = math.distance(transform.ValueRO.Position, playerTransform.Position);
 
                     if (distanceToPlayer < closestDistance)
                     {
                         closestDistance = distanceToPlayer;
-                        closestPlayer = player;
+                        closestPlayer   = characterController;
                     }
                 }
 
