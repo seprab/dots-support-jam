@@ -19,9 +19,7 @@ partial struct AgentNavSystem : ISystem, ISystemStartStop
     NativeArray<NavMeshQuery> pathRecaclulatingQueries;
     public void OnStartRunning(ref SystemState state)
     {
-        eqNavAgents = state.EntityManager.CreateEntityQuery(typeof(NavAgent));
-        eqNavProps = state.EntityManager.CreateEntityQuery(typeof(NavGlobalProperties));
-
+        
     }
 
     public void OnStopRunning(ref SystemState state)
@@ -31,6 +29,8 @@ partial struct AgentNavSystem : ISystem, ISystemStartStop
     //[BurstCompile]
     public void OnUpdate(ref SystemState state)
     {
+        eqNavAgents = state.EntityManager.CreateEntityQuery(typeof(NavAgent));
+        eqNavProps = state.EntityManager.CreateEntityQuery(typeof(NavGlobalProperties));
         int globalProps = eqNavProps.CalculateEntityCount();
         if (globalProps != 1) return;
         int i = 0;
@@ -41,6 +41,7 @@ partial struct AgentNavSystem : ISystem, ISystemStartStop
         {
             if (properties.ValueRO.DynamicPathFinding && ana.agentPathValidityBuffer.Length > 0 && ana.agentPathValidityBuffer.ElementAt(0).IsPathInvalid)
             {
+                //Checks if dynamic pathfinding is enabled and the agent's path is invalid. If so, it resets the agent's path buffer, path calculation state, and validity buffer to force a new path calculation.
                 ana.agentBuffer.Clear();
                 ana.agentMovement.ValueRW.CurrentBufferIndex = 0;
                 ana.agent.ValueRW.PathCalculated = false;
@@ -48,7 +49,7 @@ partial struct AgentNavSystem : ISystem, ISystemStartStop
             }
             if (properties.ValueRO.AgentMovementEnabled && properties.ValueRO.RetracePath && ana.agent.ValueRW.UsingGlobalRelativeLoction && ana.agentMovement.ValueRO.Reached)
             {
-                ana.agent.ValueRW.ToLocation = new float3(ana.agent.ValueRW.ToLocation.x, ana.agent.ValueRW.ToLocation.y, -ana.agent.ValueRW.ToLocation.z);
+                // Checks if agent movement, path retracing, and global relative location are enabled, and if the agent has reached its destination. If so, resets the path buffer and state, and marks the agent as not having reached the destination.
                 ana.agentBuffer.Clear();
                 ana.agentMovement.ValueRW.CurrentBufferIndex = 0;
                 ana.agent.ValueRW.PathCalculated = false;
@@ -57,11 +58,11 @@ partial struct AgentNavSystem : ISystem, ISystemStartStop
             }
             if (!ana.agent.ValueRO.PathCalculated || ana.agentBuffer.Length == 0)
             {
+                // If the agent's path has not been calculated or the path buffer is empty, it creates a new NavMeshQuery and schedules a navigation job.
                 pathFindingQueries[i] = new NavMeshQuery(NavMeshWorld.GetDefaultWorld(), Allocator.TempJob, properties.ValueRO.MaxPathNodePoolSize);
                 ana.agent.ValueRW.PathFindingQueryIndex = i;
                 if (properties.ValueRO.SetGlobalRelativeLocation && !ana.agent.ValueRO.UsingGlobalRelativeLoction)
                 {
-                    ana.agent.ValueRW.ToLocation = ana.trans.ValueRO.Position + properties.ValueRO.Units;
                     ana.agent.ValueRW.UsingGlobalRelativeLoction = true;
                 }
                 pathFindingJobs[i] = new Navigate
